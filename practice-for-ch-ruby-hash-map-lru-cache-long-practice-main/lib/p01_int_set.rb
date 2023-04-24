@@ -76,19 +76,24 @@ class ResizingIntSet
   def initialize(num_buckets = 20)
     @store = Array.new(num_buckets) { Array.new }
     @count = 0
+    @num_buckets = num_buckets
   end
 
   def insert(num)
     mod_num = num % num_buckets
     if @store[mod_num] != true 
-      @store[mod_num] = true 
+      @store[mod_num] << num 
       @count += 1 
     end  
+    if @count == num_buckets
+      resize!
+      
+    end
   end
 
   def remove(num)
     mod_num = num % num_buckets
-    if @store[mod_num] == true 
+    if @store[mod_num].include?(num)
       @store[mod_num] = false 
       @count -= 1 
     end  
@@ -110,10 +115,17 @@ class ResizingIntSet
   end
 
   def resize!
-    if num_buckets == @count 
-      num_buckets *= 2 
-    end 
+# debugger
+    new_bucket = self.num_buckets * 2
+    old_store = @store 
+      @store = Array.new(new_bucket) {[]}
+      debugger
+      old_store.each do |ele|
 
+      end
+        # (ele)
+    # end
+    @store = resize
   end
 
   def [](num)
