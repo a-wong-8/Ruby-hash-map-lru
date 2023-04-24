@@ -81,31 +81,26 @@ class ResizingIntSet
 
   def insert(num)
     mod_num = num % num_buckets
-    if @store[mod_num] != true 
+    if !@store[mod_num].include?(num)
       @store[mod_num] << num 
       @count += 1 
-    end  
+    end 
     if @count == num_buckets
       resize!
-      
     end
   end
 
   def remove(num)
     mod_num = num % num_buckets
     if @store[mod_num].include?(num)
-      @store[mod_num] = false 
+      @store[mod_num].delete(num) 
       @count -= 1 
     end  
   end
 
   def include?(num)
     mod_num = num % num_buckets
-    if @store[mod_num] == true 
-       return true 
-    else
-      false 
-    end 
+    @store[mod_num].include?(num)
   end
 
   private
@@ -115,17 +110,20 @@ class ResizingIntSet
   end
 
   def resize!
-# debugger
+    # debugger
     new_bucket = self.num_buckets * 2
     old_store = @store 
+    # p old_store
+      @count = 0 
       @store = Array.new(new_bucket) {[]}
-      debugger
-      old_store.each do |ele|
+      # debugger
+      old_store.flatten.each do |ele|
+        self.insert(ele)
+      end 
 
-      end
-        # (ele)
-    # end
-    @store = resize
+      @store
+
+  
   end
 
   def [](num)
