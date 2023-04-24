@@ -1,14 +1,19 @@
 class MaxIntSet
   def initialize(max)
+    @store = Set.new(max, false)
   end
-
+ 
   def insert(num)
+    # raise 'error 'if 
   end
 
   def remove(num)
+
   end
 
   def include?(num)
+     @store.include?(num)
+
   end
 
   private
