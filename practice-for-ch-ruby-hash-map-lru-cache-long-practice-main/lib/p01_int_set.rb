@@ -1,19 +1,26 @@
+require 'byebug'
 class MaxIntSet
+  attr_reader :store
   def initialize(max)
-    @store = Set.new(max, false)
+    @store = Array.new(max, false)
+    @max = max 
   end
  
   def insert(num)
-    # raise 'error 'if 
+    raise 'Out of bounds' if num > @max || num < 0 
+    @store[num] = true 
   end
 
   def remove(num)
-
+    @store[num] = false
   end
 
   def include?(num)
-     @store.include?(num)
-
+     if @store[num]
+      return true 
+     else 
+      false 
+     end 
   end
 
   private
@@ -26,17 +33,30 @@ class MaxIntSet
 end
 
 class IntSet
+
+  attr_reader :store
+
   def initialize(num_buckets = 20)
     @store = Array.new(num_buckets) { Array.new }
   end
 
   def insert(num)
+    mod_num = num % 20
+    @store[mod_num] = true 
   end
 
   def remove(num)
+    mod_num = num % 20
+    @store[mod_num] = false
   end
 
   def include?(num)
+    mod_num = num % 20 
+    if @store[mod_num] == true 
+      return true 
+    else 
+      return false 
+    end 
   end
 
   private
@@ -59,12 +79,28 @@ class ResizingIntSet
   end
 
   def insert(num)
+    mod_num = num % num_buckets
+    if @store[mod_num] != true 
+      @store[mod_num] = true 
+      @count += 1 
+    end  
   end
 
   def remove(num)
+    mod_num = num % num_buckets
+    if @store[mod_num] == true 
+      @store[mod_num] = false 
+      @count -= 1 
+    end  
   end
 
   def include?(num)
+    mod_num = num % num_buckets
+    if @store[mod_num] == true 
+       return true 
+    else
+      false 
+    end 
   end
 
   private
@@ -74,6 +110,10 @@ class ResizingIntSet
   end
 
   def resize!
+    if num_buckets == @count 
+      num_buckets *= 2 
+    end 
+
   end
 
   def [](num)
