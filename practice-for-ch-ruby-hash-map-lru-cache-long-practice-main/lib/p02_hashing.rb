@@ -4,6 +4,12 @@ end
 
 class Array
   def hash
+    hashed_array = ""
+    self.each do |ele|
+      hashed_array += ele.to_s
+    end 
+    
+    hashed_array.to_i
     
   end
 end
