@@ -1,6 +1,6 @@
 require 'rspec'
 require 'p02_hashing'
-
+ 
 describe "Hashing" do
   describe Array do
     it "should hash to an integer" do

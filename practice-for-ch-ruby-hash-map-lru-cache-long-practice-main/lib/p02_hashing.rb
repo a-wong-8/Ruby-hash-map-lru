@@ -1,3 +1,4 @@
+require "byebug"
 class Integer
   # Integer#hash already implemented for you
 end
@@ -15,7 +16,17 @@ class Array
 end
 
 class String
+
   def hash
+  alpha = ('a'..'z').to_a
+  string = self
+  new_string = []
+  # debugger
+    string.each_char.with_index do |char, i|
+    index = (alpha.index(char.downcase))
+      new_string << index
+    end
+    new_string
   end
 end
 
